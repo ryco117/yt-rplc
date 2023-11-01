@@ -10,10 +10,12 @@ chrome.storage.sync.get('replacePlayer').then((data) => {
 
 // When the checkbox changes, save the state.
 checkbox.addEventListener('change', function() {
-    chrome.storage.session.set({ tabUrls: {} }).catch((error) => {
+    // Reset the tab state map so that changes can take effect for the same URL.
+    chrome.storage.session.set({ tabStateMap: {} }).catch((error) => {
         console.error(`Failed to reset yt-rplc state: ${error}`);
     });
 
+    // Save the new toggle state.
     chrome.storage.sync.set({replacePlayer: this.checked}).catch((error) => {
         console.error(`Failed to apply yt-rplc toggle change: ${error}`);
     });
